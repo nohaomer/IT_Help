@@ -2,7 +2,8 @@ import subprocess
 import sqlite3
 conn=sqlite3.connect('ping.db')
 cursor = conn.cursor()
-cursor.execute('''SELECT IP FROM Switches''')
+
+cursor.execute('''SELECT IP FROM Switches WHERE ''')
 c = cursor.fetchone()
 # print(c[0])
 
