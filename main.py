@@ -1,18 +1,48 @@
 import subprocess
 import sqlite3
+import tkinter as tk
+from tkinter import messagebox
 conn=sqlite3.connect('ping.db')
 cursor = conn.cursor()
+cursor.execute('SELECT COUNT(*) FROM Switches')
 
-cursor.execute('''SELECT IP FROM Switches WHERE ''')
-c = cursor.fetchone()
-# print(c[0])
+# Fetch the result of the query
+count = cursor.fetchone()[0]
 
-result = ', '.join(str(field) for field in c)
-print(result)
-# Run a command in the command prompt
-#The /c option tells cmd.exe to execute a single command and then exit. Without this option,
-# cmd.exe would start an interactive command prompt session and wait for user input.
+# Print the number of rows
+print(count)
+co=1
 
+while co <= 4:
+
+    cursor.execute(f'''SELECT IP FROM Switches WHERE ID={co}''')
+    # convert tuple to srting must use fetchone
+    c = cursor.fetchone()
+    result = ', '.join(str(field) for field in c)
+    # The /c option tells cmd.exe to execute a single command and then exit. Without this option,
+    # cmd.exe would start an interactive command prompt session and wait for user input.
+    output = subprocess.run(['C:\Windows\System32\cmd.exe', '/c', f'ping {result}'], stdout=subprocess.PIPE, text=True)
+    if 'Lost = 4' in output.stdout:
+        print('error')
+    else:
+        print('pingable')
+
+    co+=1
+    # print(c[0])
+
+
+
+
+
+# Create a root window
+root = tk.Tk()
+root.withdraw()
+
+# Show a message box with an OK button
+messagebox.showinfo("Title", "Message")
+
+# Main loop
+root.mainloop()
 
 #################################without DB ###################################
 # result = subprocess.run(['C:\Windows\System32\cmd.exe', '/c', 'ping 10.0.0.100'], stdout=subprocess.PIPE, text=True)
@@ -24,11 +54,11 @@ print(result)
 
 ################################# with DB ###################################
 
-output = subprocess.run(['C:\Windows\System32\cmd.exe', '/c', f'ping {result}'], stdout=subprocess.PIPE, text=True)
-if 'Lost = 4' in output.stdout:
-    print('error')
-else:
-    print('pingable')
+# output = subprocess.run(['C:\Windows\System32\cmd.exe', '/c', f'ping {result}'], stdout=subprocess.PIPE, text=True)
+# if 'Lost = 4' in output.stdout:
+#     print('error')
+# else:
+#     print('pingable')
 
 # Commit your changes in the database
 conn.commit()

@@ -15,10 +15,10 @@ Location VARCHAR(255));
 """
 # cursor.execute(table)
 # Queries to INSERT records.
-cursor.execute(
-'INSERT INTO Switches (IP,Name,Location) VALUES (?, ?, ?)',( '8.8.8.8', 'DNS', 'MY home'))
-
-cursor.execute('INSERT INTO Switches (IP,Name,Location)VALUES (?, ?, ?)',('10.0.100.138','GW','EGPI'))
+# cursor.execute(
+# 'INSERT INTO Switches (IP,Name,Location) VALUES (?, ?, ?)',( '8.8.8.8', 'DNS', 'MY home'))
+#
+# cursor.execute('INSERT INTO Switches (IP,Name,Location)VALUES (?, ?, ?)',('10.0.100.138','GW','EGPI'))
 
 # Display data inserted
 # print("Data Inserted in the table: ")
