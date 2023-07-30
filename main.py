@@ -12,7 +12,8 @@ count = cursor.fetchone()[0]
 # Print the number of rows
 print(count)
 co=1
-
+ping=""
+error=""
 while co <= 4:
 
     cursor.execute(f'''SELECT IP FROM Switches WHERE ID={co}''')
@@ -22,10 +23,13 @@ while co <= 4:
     # The /c option tells cmd.exe to execute a single command and then exit. Without this option,
     # cmd.exe would start an interactive command prompt session and wait for user input.
     output = subprocess.run(['C:\Windows\System32\cmd.exe', '/c', f'ping {result}'], stdout=subprocess.PIPE, text=True)
+
     if 'Lost = 4' in output.stdout:
-        print('error')
+        print(" not replay")
+        ping=ping+result+" "
     else:
-        print('pingable')
+        print(" replay")
+        error=error+result+" "
 
     co+=1
     # print(c[0])
@@ -39,7 +43,7 @@ root = tk.Tk()
 root.withdraw()
 
 # Show a message box with an OK button
-messagebox.showinfo("Title", "Message")
+messagebox.showinfo("outputs", f"Pingable IPs are :   {ping}"+"\n" f"Error IPs are : {error}")
 
 # Main loop
 root.mainloop()
