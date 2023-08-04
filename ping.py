@@ -2,17 +2,11 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from  ping import noha
 
 
-class Ui_MainWindow(object):
-    def check(self):
 
-            self.window = QtWidgets.QMainWindow()
-            self.ui = noha()
-            self.ui.setupUi(self.window)
 
-            self.window.show()
+class noha(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -85,7 +79,7 @@ class Ui_MainWindow(object):
 "border-color: rgb(0, 0, 127);\n"
 "border-radius : 20;")
         self.pushButton_10.setObjectName("pushButton_10")
-        self.pushButton_10.clicked.connect(self.check)
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(700, -10, 521, 251))
         self.label.setStyleSheet("background-image: url(images-fotor-bg-remover-20230804215155.png);")
@@ -117,7 +111,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = noha()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
