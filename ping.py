@@ -1,10 +1,13 @@
-
+import subprocess
+import tkinter as tk
+from tkinter import messagebox
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from google.cloud.firestore_v1 import FieldFilter
 
 cred = credentials.Certificate("ithelp-2f67c-firebase-adminsdk-ckc7c-57cd35c507.json")
 firebase_admin.initialize_app(cred)
@@ -21,21 +24,69 @@ def populate_combo_box(combo_box):
     combo_box.addItems(collection_names)
 
 
-def populate_combo_box2(combo_box,collection):
 
-    # Replace this code with your own logic to populate the combo box
-    col=collection.currentText()
-    print(col)
+
 
 
 
 
 class noha(object):
-    def ok(self):
+    def ping(self): # here ping and replay
+        name=self.comboBox_2.currentText()
+        category=self.comboBox.currentText()
+        print(category)
+        ################ select ip from name from database
+        # Query the database
+
+        docs = (
+            db.collection(category)
+            .where(filter=FieldFilter("name", "==", name))
+            .stream()
+        )
+
+        for doc in docs:
+            v = doc.to_dict()
+            ip = v['ip']
+            print(ip)
+
+        ping = ""
+        error = ""
+        output = subprocess.run(['C:\Windows\System32\cmd.exe', '/c', f'ping {ip}'], stdout=subprocess.PIPE, text=True)
+        #
+        if 'Lost = 4' in output.stdout:
+            print(" not replay")
+            error = error + ip + " "
+
+        else:
+            print(" replay")
+            ping = ping + ip + " "
+
+        # # Create a root window
+
+
+        messagebox.showinfo("outputs", f"Replay IPs are :   {ping}" + "\n" f"Not Replay IPs are : {error}")
+
+
+    def ok(self): #here show data of combo box
+        my_list = []  # Existing list
+
+        # Using append() method
+
+        category = self.comboBox.currentText()
+        emp_ref = db.collection(category)
+        docs = emp_ref.stream()
+
+        for doc in docs:
+            v = doc.to_dict()
+            name = v['name']
+            my_list.append(name)
+        print(my_list)
         self.pushButton_8.hide()
         self.pushButton_7.show()
         self.label_4.show()
         self.comboBox_2.show()
+        self.comboBox_2.addItems(my_list)
+
 
 
 
@@ -60,6 +111,7 @@ class noha(object):
                                         "border-radius : 20;")
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_7.hide()
+        self.pushButton_7.clicked.connect(self.ping)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(330, 190, 251, 51))
         self.comboBox.setStyleSheet("color: rgb(0, 0, 127);\n"
@@ -74,7 +126,7 @@ class noha(object):
                                       "font: 12pt MS Shell Dlg 2;\n")
         self.comboBox_2.setObjectName("comboBox_2")
         self.comboBox_2.hide()
-        populate_combo_box2(self.comboBox_2,self.comboBox)
+
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(10, 180, 321, 71))
         self.label_3.setStyleSheet("background-image: url(6510583-fotor-bg-remover-20230805182240.png);\n"

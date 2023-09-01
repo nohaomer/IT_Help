@@ -2,10 +2,21 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+from add_Category import Add_category
 from  ping import noha
+from show import Ui_show
 
 
 class Ui_MainWindow(object):
+
+    def addcat(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Add_category()
+        self.ui.setupUi(self.window)
+
+        self.window.show()
+
     def check(self):
 
             self.window = QtWidgets.QMainWindow()
@@ -14,6 +25,12 @@ class Ui_MainWindow(object):
 
             self.window.show()
 
+    def Show(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui =Ui_show()
+        self.ui.setupUi(self.window)
+
+        self.window.show()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1140, 803)
@@ -40,6 +57,7 @@ class Ui_MainWindow(object):
 "border-radius : 20;\n"
                                         )
         self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_5.clicked.connect(self.addcat)
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(780, 380, 181, 61))
         self.pushButton_6.setStyleSheet("border-radius : 80;\n"
@@ -58,6 +76,7 @@ class Ui_MainWindow(object):
 "border-color: rgb(0, 0, 127);\n"
 "border-radius : 20;")
         self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_7.clicked.connect(self.Show)
         self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_8.setGeometry(QtCore.QRect(640, 610, 171, 61))
         self.pushButton_8.setStyleSheet("border-radius : 80;\n"
